@@ -183,6 +183,8 @@ ny_top_complaints |>
 
 nycomplainttype_top5
 
+
+
 ny_top_complaints |>
   ggplot(aes(x = opendate, color = complaint_type)) + 
   geom_freqpoly(binwidth = 30) +
@@ -206,17 +208,23 @@ ny_not_closed |>
 - a. _Either_ choose one of the plots you've already made _or_ create a new plot or map using the data. Work it up to something more finished. Aim for something that is both properly informative and as polished as you can make it.
 
 ```{r}
-ny_top_complaints |>
-  arrange(desc(opendate))
+monthly_counts <- ny_top_complaints %>%
+  mutate(month_year = floor_date(opendate, "month")) %>%
+  group_by(month_year, complaint_type) %>%
+  summarise(count = n()) 
 
-ny_top_complaints |>
-  arrange(opendate)
+monthly_counts$complaint_type <- factor(monthly_counts$complaint_type, 
+                      levels = c("Housing and Buildings", "Transportation", "Finance",
+                                 "Immigration", "General Welfare"))
 
-ny_top_complaints_plot<- ny_top_complaints |>
-  ggplot(aes(x = opendate, color = complaint_type)) + 
-  geom_freqpoly(binwidth = 30) +
+print(monthly_counts) 
+
+ny_top_complaints_plot<- monthly_counts |>
+  ggplot(aes(x = month_year, y = count, color = complaint_type)) + 
+  geom_line() +
   labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
-scale_x_date(breaks = "1 year", minor_breaks = "1 month", date_labels = "%Y")
+scale_x_date(breaks = "1 year", minor_breaks = "1 month", date_labels = "%Y") +
+      scale_color_manual(values = c("Housing and Buildings" = "#003f5c", "Transportation" = "#58508d", "Finance" ="#bc5090",  "Immigration" = "#ff6361",  "General Welfare" = "#ffa600"))
 
 ny_top_complaints_plot
 ```
