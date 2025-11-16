@@ -216,7 +216,7 @@ ny_top_complaints_plot<- ny_top_complaints |>
   ggplot(aes(x = opendate, color = complaint_type)) + 
   geom_freqpoly(binwidth = 30) +
   labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
-scale_x_continuous(labels = 2015:2025, breaks = seq.Date(from = as.Date("2015-01-01"), to = as.Date("2025-02-01") , by = "1 year"))
+scale_x_date(breaks = "1 year", minor_breaks = "1 month", date_labels = "%Y")
 
 ny_top_complaints_plot
 ```
