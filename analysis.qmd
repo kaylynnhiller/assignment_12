@@ -153,12 +153,13 @@ nycomplaints |>
 #I wanted to see plot of when complaints were opened for changes in data
 nycomplaints |> 
   ggplot(aes(x = opendate)) + 
-  geom_freqpoly()
+  geom_freqpoly(binwidth = 15)
 
 #I wanted to see plot of when complaints were closed for changes in data
 nycomplaints |> 
+  filter(!is.na(closedate)) |>
   ggplot(aes(x = closedate)) + 
-  geom_freqpoly()
+  geom_freqpoly(binwidth = 15)
 ```
 
 
@@ -184,7 +185,7 @@ nycomplainttype_top5
 
 ny_top_complaints |>
   ggplot(aes(x = opendate, color = complaint_type)) + 
-  geom_freqpoly() +
+  geom_freqpoly(binwidth = 30) +
   labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Open Date", y = "Count", color = "Complaint Type")
 
 #I wanted to see if the number of complaints with no closed date has changed over time
@@ -194,7 +195,7 @@ ny_not_closed <-
 
 ny_not_closed |>
   ggplot(aes(x = opendate)) + 
-  geom_freqpoly() +
+  geom_freqpoly(binwidth = 15) +
   labs(title = "Complaints With No Close Date Over Time", subtitle = "NYC Council Office District Data", x = "Open Date", y = "Count")
 ```
 
@@ -213,9 +214,11 @@ ny_top_complaints |>
 
 ny_top_complaints_plot<- ny_top_complaints |>
   ggplot(aes(x = opendate, color = complaint_type)) + 
-  geom_freqpoly() +
+  geom_freqpoly(binwidth = 30) +
   labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
 scale_x_continuous(labels = 2015:2025, breaks = seq.Date(from = as.Date("2015-01-01"), to = as.Date("2025-02-01") , by = "1 year"))
+
+ny_top_complaints_plot
 ```
 
 
