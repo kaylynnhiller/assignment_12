@@ -12,6 +12,7 @@ format: html
 library(tidyverse)
 library(here)
 library(socviz)
+library(dplyr)
 
 ## Mapping
 library(sf)
@@ -124,6 +125,13 @@ nycomplaints |>
   summarize(total = n()) |>
   print(n = 60)
 
+nycomplainttype_top5 <-
+  nycomplaints |>
+  group_by(complaint_type) |>
+  summarize(total = n()) |>
+  slice_max(total, n = 5)
+
+nycomplainttype_top5
 ```
 
 
@@ -132,19 +140,22 @@ nycomplaints |>
 - Explore the basic structure of the data, by e.g. writing code to summarize the variables or investigate aspects of them that seem interesting. You can also create some initial rough exploratory plots if you like, in addition to tables or other summaries. As you go, explain here what it is you are doing and why.
 
 ```{r}
-
+#I wanted to see how complaints are groups across each borough
 nycomplaints |>
   group_by(borough) |>
   summarize(total = n())
 
+#I wanted to see how complaints are groups across each community board
 nycomplaints |>
   group_by(community_board) |>
   summarize(total = n())
 
+#I wanted to see plot of when complaints were opened for changes in data
 nycomplaints |> 
   ggplot(aes(x = opendate)) + 
   geom_freqpoly()
 
+#I wanted to see plot of when complaints were closed for changes in data
 nycomplaints |> 
   ggplot(aes(x = closedate)) + 
   geom_freqpoly()
@@ -156,7 +167,35 @@ nycomplaints |>
 - Following on from the tabular summarize, make some plots that you think show something interesting about the data. Make sure they look presentable and effective to you. Make a note about why you're doing each one. If you like, merge in data from elsewhere (e.g. from Census variables).
 
 ```{r}
+#I wanted to plot the different types of complaints over time, focusing on the top 5 complaints overall in the data
+top_complaint_type <-
+  nycomplainttype_top5 |>
+  select(complaint_type)
 
+ny_top_complaints <- nycomplaints |>
+  filter(complaint_type %in% top_complaint_type$complaint_type)
+
+ny_top_complaints |>
+  group_by(complaint_type) |>
+  summarize(total = n()) |>
+  arrange(desc(total))
+
+nycomplainttype_top5
+
+ny_top_complaints |>
+  ggplot(aes(x = opendate, color = complaint_type)) + 
+  geom_freqpoly() +
+  labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Open Date", y = "Count", color = "Complaint Type")
+
+#I wanted to see if the number of complaints with no close date has changes over time
+ny_not_closed <-
+  nycomplaints |>
+  filter(is.na(closedate))
+
+ny_not_closed |>
+  ggplot(aes(x = opendate)) + 
+  geom_freqpoly() +
+  labs(title = "Complaints With No Close Date Over Time", subtitle = "NYC Council Office District Data", x = "Open Date", y = "Count")
 ```
 
 
@@ -166,13 +205,31 @@ nycomplaints |>
 - a. _Either_ choose one of the plots you've already made _or_ create a new plot or map using the data. Work it up to something more finished. Aim for something that is both properly informative and as polished as you can make it.
 
 ```{r}
+ny_top_complaints |>
+  arrange(desc(opendate))
 
+ny_top_complaints |>
+  arrange(opendate)
+
+ny_top_complaints_plot<- ny_top_complaints |>
+  ggplot(aes(x = opendate, color = complaint_type)) + 
+  geom_freqpoly() +
+  labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
+scale_x_continuous(labels = 2015:2025, breaks = seq.Date(from = as.Date("2015-01-01"), to = as.Date("2025-02-01") , by = "1 year"))
 ```
 
 
 - b. Try saving this plot or map using `ggsave()`. Create it as a PNG or PDF file. Make its dimensions (width and height) the right size for what you draw.
 
 ```{r}
+ggsave(
+  file = "topcomplaints.png",
+  plot = ny_top_complaints_plot,
+  device = png,
+  path = "figures",
+  scale = 1,
+  width = 10,
+  height = 5)
 
 ```
 
