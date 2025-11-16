@@ -119,6 +119,10 @@ zip_data |>
 - Summarize the `nycomplaints` tibble in a way you think is informative to you.
 
 ```{r}
+nycomplaints |>
+  group_by(complaint_type) |>
+  summarize(total = n()) |>
+  print(n = 60)
 
 ```
 
@@ -129,6 +133,21 @@ zip_data |>
 
 ```{r}
 
+nycomplaints |>
+  group_by(borough) |>
+  summarize(total = n())
+
+nycomplaints |>
+  group_by(community_board) |>
+  summarize(total = n())
+
+nycomplaints |> 
+  ggplot(aes(x = opendate)) + 
+  geom_freqpoly()
+
+nycomplaints |> 
+  ggplot(aes(x = closedate)) + 
+  geom_freqpoly()
 ```
 
 
