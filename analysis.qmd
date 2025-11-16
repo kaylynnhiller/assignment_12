@@ -222,7 +222,7 @@ print(monthly_counts)
 ny_top_complaints_plot<- monthly_counts |>
   ggplot(aes(x = month_year, y = count, color = complaint_type)) + 
   geom_line() +
-  labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
+  labs(title = "Complaints From Constituents Over Time, 2015 - 2025", subtitle = "NYC Council Office District Data, Overall Top 5 Complaint Types", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
 scale_x_date(breaks = "1 year", minor_breaks = "1 month", date_labels = "%Y") +
       scale_color_manual(values = c("Housing and Buildings" = "#003f5c", "Transportation" = "#58508d", "Finance" ="#bc5090",  "Immigration" = "#ff6361",  "General Welfare" = "#ffa600"))
 
