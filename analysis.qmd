@@ -73,6 +73,20 @@ Hints:
 
 Additionally, this may be a good time to think about dividing your project up in to more than one file. For example, you could have one R script that does the work above to produce an object you could save, or that you source into this file. (See `?source`.)
 
+```{r}
+zip_data <- get_acs(
+  state = "NY",
+  geography = "zcta",
+  variables = "B13002_002",
+  geometry = TRUE,
+  year = 2019
+)
+
+zip_data %>%
+  ggplot(aes(fill = estimate)) + 
+  geom_sf(color = NA) + 
+  scale_fill_viridis_c(option = "magma") 
+```
 
 
 ## Additional variables
@@ -104,17 +118,42 @@ zip_data |>
 
 - Summarize the `nycomplaints` tibble in a way you think is informative to you.
 
+```{r}
+
+```
+
+
 ## 2 Look at each column/variable in a little more detail
 
 - Explore the basic structure of the data, by e.g. writing code to summarize the variables or investigate aspects of them that seem interesting. You can also create some initial rough exploratory plots if you like, in addition to tables or other summaries. As you go, explain here what it is you are doing and why.
 
+```{r}
+
+```
+
+
 ## 3. Make some plots or maps
 
 - Following on from the tabular summarize, make some plots that you think show something interesting about the data. Make sure they look presentable and effective to you. Make a note about why you're doing each one. If you like, merge in data from elsewhere (e.g. from Census variables).
+
+```{r}
+
+```
+
 
 
 ## 4. Try to make one properly-polished plot or map
 
 - a. _Either_ choose one of the plots you've already made _or_ create a new plot or map using the data. Work it up to something more finished. Aim for something that is both properly informative and as polished as you can make it.
 
+```{r}
+
+```
+
+
 - b. Try saving this plot or map using `ggsave()`. Create it as a PNG or PDF file. Make its dimensions (width and height) the right size for what you draw.
+
+```{r}
+
+```
+
