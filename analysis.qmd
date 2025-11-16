@@ -1,6 +1,6 @@
 ---
 title: "Problem Set 12: NYC Complaints Data"
-author: "<PUT YOUR NAME HERE>"
+author: "Kaylynn Hiller"
 date: "`r Sys.Date()`"
 format: html
 ---
@@ -82,6 +82,8 @@ The ACS has a lot of data. Consider the *very* long list of variables here:
 ```{r}
 ## Table of all 2019 ACS variables:
 acs_vars <- load_variables(year = 2019, dataset = "acs5")
+acs_vars %>%
+  filter(name == "B13002_002")
 ```
 
 
