@@ -187,7 +187,7 @@ ny_top_complaints |>
   geom_freqpoly() +
   labs(title = "Top 5 Complaints From Constituents Over Time", subtitle = "NYC Council Office District Data", x = "Open Date", y = "Count", color = "Complaint Type")
 
-#I wanted to see if the number of complaints with no close date has changes over time
+#I wanted to see if the number of complaints with no closed date has changed over time
 ny_not_closed <-
   nycomplaints |>
   filter(is.na(closedate))
