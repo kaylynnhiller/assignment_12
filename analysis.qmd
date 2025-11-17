@@ -225,7 +225,7 @@ ny_top_complaints_plot<- monthly_counts |>
   labs(title = "Complaints From Constituents Over Time, 2015 - 2025", subtitle = "NYC Council Office District Data, Overall Top 5 Complaint Types", x = "Date Complaint Opened", y = "Count", color = "Complaint Type") +
 scale_x_date(breaks = "1 year", minor_breaks = "1 month", date_labels = "%Y") +
       scale_color_manual(values = c("Housing and Buildings" = "#003f5c", "Transportation" = "#58508d", "Finance" ="#bc5090",  "Immigration" = "#ff6361",  "General Welfare" = "#ffa600")) +
-  theme(text=element_text(family="serif"))
+  theme(text=element_text(size=16,  family="serif"))
 
 ny_top_complaints_plot
 ```
